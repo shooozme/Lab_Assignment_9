@@ -21,7 +21,7 @@ struct HashType
 // Compute the hash function
 int hash(int x)
 {
-	return x % 23;
+	return x % 33;
 }
 
 // parses input file to an integer array
@@ -94,10 +94,9 @@ void displayRecordsInHash(struct HashType *pHashArray, int hashSz)
 				printf("%d, %c, %d", pHashArray[key].record->id, pHashArray[key].record->name, pHashArray[key].record->order);
 				if(pHashArray[key].next != NULL) {
 					printf(" -> ");
-					printf("%d, %d , %c, %d", pHashArray[key].next->key, 
-												pHashArray[key].next->record->id, 
-												pHashArray[key].next->record->name, 
-												pHashArray[key].next->record->order);
+					printf("%d , %c, %d", pHashArray[key].next->record->id, 
+										  pHashArray[key].next->record->name, 
+										  pHashArray[key].next->record->order);
 				}
 				printf("\n");
 			}
