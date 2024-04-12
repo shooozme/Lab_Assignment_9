@@ -11,13 +11,14 @@ struct RecordType
 // Fill out this structure
 struct HashType
 {
-
+	struct RecordType;
+	int key;
 };
 
 // Compute the hash function
 int hash(int x)
 {
-	
+	return x % 31;
 }
 
 // parses input file to an integer array
@@ -80,6 +81,8 @@ void displayRecordsInHash(struct HashType *pHashArray, int hashSz)
 	for (i=0;i<hashSz;++i)
 	{
 		// if index is occupied with any records, print all
+		
+		
 	}
 }
 
@@ -88,7 +91,13 @@ int main(void)
 	struct RecordType *pRecords;
 	int recordSz = 0;
 
-	recordSz = parseData("input.txt", &pRecords);
+	recordSz = parseData("input_lab_9.txt", &pRecords);
 	printRecords(pRecords, recordSz);
 	// Your hash implementation
+	int i = 0;
+
+	for (i = 0; i < recordSz; i++) {
+
+	}
+
 }
