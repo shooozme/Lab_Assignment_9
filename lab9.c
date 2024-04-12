@@ -21,7 +21,7 @@ struct HashType
 // Compute the hash function
 int hash(int x)
 {
-	return x % 33;
+	return x % 23;
 }
 
 // parses input file to an integer array
@@ -92,11 +92,13 @@ void displayRecordsInHash(struct HashType *pHashArray, int hashSz)
 			} else {
 				printf("\tindex %d -> ", i);
 				printf("%d, %c, %d", pHashArray[key].record->id, pHashArray[key].record->name, pHashArray[key].record->order);
-				if(pHashArray[key].next != NULL) {
-					printf(" -> ");
-					printf("%d , %c, %d", pHashArray[key].next->record->id, 
-										  pHashArray[key].next->record->name, 
-										  pHashArray[key].next->record->order);
+				struct HashType *temp = &pHashArray[key];
+				while (temp->next != NULL) {
+					printf(" -> %d , %c, %d ", temp->next->record->id, 
+										  temp->next->record->name, 
+										  temp->next->record->order);
+					
+					temp = temp->next;
 				}
 				printf("\n");
 			}
@@ -113,7 +115,6 @@ int main(void)
 	printRecords(pRecords, recordSz);
 	// Your hash implementation
 	
-	//struct HashType pHashArray[recordSz];
 	struct HashType *pHashArray = (struct HashType*) malloc(sizeof(struct HashType) * recordSz);
 
 	for(int i = 0; i < recordSz; i++) {
@@ -129,14 +130,18 @@ int main(void)
 			pHashArray[key].record->order = pRecords[i].order;
 		} else if (pHashArray[key].key == key ) {
 
-			pHashArray[key].next = (struct HashType*)malloc(sizeof(struct HashType));
-			pHashArray[key].next->record = (struct RecordType*)malloc(sizeof(struct RecordType));
-			pHashArray[key].next->key = key;
-			pHashArray[key].next->record->id = pRecords[i].id;
-			pHashArray[key].next->record->name = pRecords[i].name;
-			pHashArray[key].next->record->order = pRecords[i].order;
+			struct HashType *temp = &pHashArray[key];
+			while (temp->next != NULL) {
+				temp = temp->next;
+			}
+				temp->next = (struct HashType*)malloc(sizeof(struct HashType));
+				temp->next->record = (struct RecordType*)malloc(sizeof(struct RecordType));
+				temp->next->key = key;
+				temp->next->record->id = pRecords[i].id;
+				temp->next->record->name = pRecords[i].name;
+				temp->next->record->order = pRecords[i].order;
+				temp->next->next = NULL;
 		}
-		
 	}
 	displayRecordsInHash(pHashArray, recordSz);
 	free(pHashArray);
